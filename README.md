@@ -1,2 +1,17 @@
 # ok-name
-替换特殊字符 合法文件名
+
+```python
+def ok_name(name: str) -> str:
+    """替换字符串中的特殊字符"""
+    name = name.replace('\\', '＼')
+    name = name.replace('/', '／')
+    name = name.replace(':', '：')
+    name = name.replace('*', '⁕')
+    name = name.replace('?', '？')
+    name = name.replace('"', '”')
+    name = name.replace('<', '＜')
+    name = name.replace('>', '＞')
+    name = name.replace('|', '¦')
+    name = re.sub(r'\s+', ' ', name)
+    return name
+```
