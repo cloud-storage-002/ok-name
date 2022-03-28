@@ -44,6 +44,7 @@ class Download:
         )
         self.session = requests.session()
         self.session.trust_env = False
+        self.session.verify = False
 
     def download(self, url: str, file: str) -> str:
         """下载文件"""
@@ -74,12 +75,15 @@ class Download:
 
         try:
             progress_bar = None
-            with requests.get(url, headers={
+            with self.session.get(url, headers={
                 'Range': f'bytes={tmp_size}-'
-            }, stream=True) as resp:
+            }, stream=True, ) as resp:
                 llen = int(resp.headers.get('content-length', 0))
                 if resp.headers.get('Accept-Ranges', None) != 'bytes':
-                    raise f'此链接不支持断点续传 {resp.url}'
+                    if tmp_size == 0:
+                        self.log.warning(f'此链接不支持断点续传 {resp.url}')
+                    else:
+                        raise f'此链接不支持断点续传 {resp.url}'
                 progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
                 progress_bar.update(tmp_size)
                 with open(tmp_file, 'ab') as f:
@@ -93,5 +97,6 @@ class Download:
 
         self.log.info(f'文件下载完成 {file_path}')
         return file_path
+
 
 ```
