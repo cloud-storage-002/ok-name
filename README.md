@@ -26,8 +26,6 @@ import coloredlogs
 import requests
 from tqdm import tqdm
 
-from Message import Message
-
 
 class Download:
     """下载相关"""
@@ -36,13 +34,13 @@ class Download:
 
     def __init__(self, folder='.'):
         self.folder = folder
-        self.log = logging.getLogger(f'{__name__}:{name}')
+        self.log = logging.getLogger(f'{__name__}')
         coloredlogs.install(
             level=logging.DEBUG,
             logger=self.log,
             milliseconds=True,
             datefmt='%X',
-            fmt=f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
+            fmt=f'%(asctime)s.%(msecs)03d %(levelname)s %(message)s'
         )
         self.session = requests.session()
         self.session.trust_env = False
