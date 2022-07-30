@@ -27,7 +27,7 @@ import requests
 from tqdm import tqdm
 
 
-class Download:
+class Downloader:
     """下载相关"""
 
     DOWNLOAD_CHUNK_SIZE = 1024 * 1024 * 10  # 10MB
